@@ -1,7 +1,7 @@
 package com.objectWrapper;
 
 public class ObjectWrapper<T> {
-	T t = null;
+	T t ;
 	
 	ObjectWrapper(T t){
 		this.t = t;
