@@ -11,6 +11,8 @@ import com.lruCache.element.Cacheble;
 public class SimpleLRUCacheImpl<E extends Cacheble> implements LRUCache<E>{
 
 	private int capacity;
+	
+	private int size;
 
 	public SimpleLRUCacheImpl(int capacity) {
 		this.capacity = capacity;
@@ -34,23 +36,29 @@ public class SimpleLRUCacheImpl<E extends Cacheble> implements LRUCache<E>{
 			queue.addFirst(ele);
 			map.replace(key, ele);
 		} else if (queue.size() == capacity) {
-			removeFirstElement();
+			removeLastElement();
 			putNewObject(key, ele);
 		} else {
 			putNewObject(key, ele);
 		}
 	}
-
-	private void putNewObject(String key, Cacheble ele) {
-		queue.addLast(ele);
-		map.put(key, ele);
+	
+	public int size() {
+		return size;
 	}
 
-	private void removeFirstElement() {
+	private void putNewObject(String key, Cacheble ele) {
+		queue.addFirst(ele);
+		map.put(key, ele);
+		++size;
+	}
+
+	private void removeLastElement() {
 		if (queue.isEmpty()) {
 			return;
 		}
-		Cacheble ele = queue.removeFirst();
+		Cacheble ele = queue.removeLast();
+		--size;
 		map.remove(ele.getKey());
 	}
 
